@@ -2,12 +2,17 @@ import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
-import { HomeScreen } from '../resources/views/screens/Home';
+import HomeScreen from '../resources/views/screens/Home';
 import { AccountScreen } from '../resources/views/screens/Account';
+
+import { loadingSelector } from '../app/modules/common/selectors'
+import { isLoginSelector } from '../app/modules/auth/selectors';
+
 
 const Stack = createStackNavigator();
 
-function RootStack() {
+function RootStack({ loading, isLogin }) {
+    console.log({ loading, isLogin })
     /**
      * Hide Splash after fetch data
      */
@@ -25,8 +30,8 @@ function RootStack() {
 const mapStateToProps = (state) => {
     return {
         // isGettingStart: isGettingStartSelector(state),
-        // isLogin: isLoginSelector(state),
-        // loading: loadingSelector(state),
+        isLogin: isLoginSelector(state),
+        loading: loadingSelector(state),
         // loginRequired: requiredLoginSelector(state),
     };
 };

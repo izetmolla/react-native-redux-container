@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
 
-// import authSaga from './modules/auth/saga';
+import authSaga from './app/modules/auth/saga';
 import commonSaga from './app/modules/common/saga'
 
 /**
@@ -10,6 +10,6 @@ import commonSaga from './app/modules/common/saga'
 export default function* rootSagas() {
     yield all([
         commonSaga(),
-        // authSaga(),
+        authSaga(),
     ]);
 }

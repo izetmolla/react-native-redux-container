@@ -45,18 +45,18 @@ class App extends Component<Props> {
 
   render() {
     return (
-      <NavigationContainer
-        ref={(navigationRef) =>
-          NavigationService.setTopLevelNavigator(navigationRef)
-        }>
-        <SafeAreaProvider>
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer
+            ref={(navigationRef) =>
+              NavigationService.setTopLevelNavigator(navigationRef)
+            }>
+            <SafeAreaProvider>
               <AppRouter />
-            </PersistGate>
-          </Provider>
-        </SafeAreaProvider>
-      </NavigationContainer>
+            </SafeAreaProvider>
+          </NavigationContainer>
+        </PersistGate>
+      </Provider>
     );
   }
 }

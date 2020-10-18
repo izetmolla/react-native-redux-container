@@ -11,6 +11,8 @@ import { connect } from 'react-redux';
 // import { ThemeProvider } from 'src/components';
 import Router from './routes/root-switch';
 import Unconnected from './resources/containers/Unconnected';
+import ThemeProvider from './resources/components/config/ThemeProvider';
+import { darkColors } from './resources/components/config/colors';
 
 // import {
 //     themeSelector,
@@ -62,12 +64,12 @@ class AppRouter extends React.Component {
         // const barStyle = theme === 'light' ? 'dark-content' : 'light-content';
 
         return (
-            <>
+            <ThemeProvider theme={darkColors}>
 
                 {!isConnected ? (
                     <Unconnected clickTry={this.checkInternet} />
                 ) : (<Router />)}
-            </>
+            </ThemeProvider>
         );
     }
 }

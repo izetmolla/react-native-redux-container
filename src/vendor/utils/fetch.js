@@ -55,38 +55,27 @@ const get = (url, options = {}) => {
  * @param method
  * @returns {Promise<R>}
  */
-const post = (url, data, method = 'POST') => {
+const post = (url, data, isAuth = false) => {
+    console.log("Heyyy")
     return new Promise((resolve, reject) => {
         // To JS Object
         if (isImmutable(data)) {
             data = data.toJS();
         }
 
-        let baseURL = configApi.API_ENDPOINT + '/wp-json' + url;
 
-        const isWC = url.indexOf('/wc') === 0;
-        const isDigits = url.indexOf('/digits') === 0;
-        const isQuery = url.indexOf('?') >= 0;
-        const isAuth =
-            url.indexOf('/rnlab-app-control') === 0 || url.indexOf('/dokan') === 0;
 
-        if (isWC || isDigits) {
-            baseURL = `${baseURL}${isQuery ? '&' : '?'}consumer_key=${configApi.CONSUMER_KEY
-                }&consumer_secret=${configApi.CONSUMER_SECRET}`;
+        let baseURL = 'https://vines.fun/v1' + url;
+
+        let headers = {
+            Accept: 'application/json', 'Content-Type': 'application/json',
+            Authorization: isAuth && globalConfig.getToken() ? `Bearer ${globalConfig.getToken()}` : null,
         }
 
+
         fetch(baseURL, {
-            method: method,
-            headers: {
-                Accept: 'application/json',
-                Authorization:
-                    isAuth && globalConfig.getToken()
-                        ? `Bearer ${globalConfig.getToken()}`
-                        : null,
-                'Content-Type': isDigits
-                    ? 'application/x-www-form-urlencoded;charset=UTF-8'
-                    : 'application/json',
-            },
+            method: "POST",
+            headers,
             body: isDigits
                 ? data
                 : typeof data === 'object'
@@ -95,15 +84,7 @@ const post = (url, data, method = 'POST') => {
         })
             .then((res) => res.json())
             .then((result) => {
-                if (result.code) {
-                    if (isDigits && (result.code === '1' || result.code === 1)) {
-                        resolve(result);
-                    } else {
-                        reject(new Error(result.message));
-                    }
-                } else {
-                    resolve(result);
-                }
+                resolve(result);
             })
             .catch((error) => {
                 reject(error);

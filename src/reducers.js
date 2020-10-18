@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-// import authReducer from './modules/auth/reducer';
+import authReducer from './app/modules/auth/reducer';
 import commonReducer from './app/modules/common/reducer';
 
 /**
@@ -9,7 +9,7 @@ import commonReducer from './app/modules/common/reducer';
  */
 const rootReducers = combineReducers({
     common: commonReducer,
-    // auth: authReducer,
+    auth: authReducer,
 });
 
 export default rootReducers;

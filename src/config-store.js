@@ -7,6 +7,9 @@ import immutableTransform from 'redux-persist-transform-immutable';
 import rootReducer from './reducers';
 import rootSaga from './sagas';
 
+import { createLogger } from 'redux-logger';
+const loggerMiddleware = createLogger();
+
 const persistConfig = {
     key: 'root',
     transforms: [immutableTransform()],
@@ -24,7 +27,7 @@ const sagaMiddleware = createSagaMiddleware();
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export default () => {
-    const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
+    const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware, loggerMiddleware));
 
     const store = createStore(persistedReducer, enhancer);
     let persistor = persistStore(store);
