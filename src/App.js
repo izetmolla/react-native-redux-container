@@ -30,6 +30,24 @@ const { store, persistor } = configureStore();
 
 type Props = {};
 
+
+const linking = {
+  prefixes: ['https://vines.fun', 'mychat://'],
+  config: {
+    screens: {
+      Chat: 'feed/:sort',
+      HomeScreen: 'home',
+      Account: {
+        path: 'user/:id',
+        parse: {
+          id: id => id.replace(/^@/, ''),
+        },
+      },
+    },
+  },
+};
+
+
 class App extends Component<Props> {
   componentDidMount() {
 
@@ -48,6 +66,7 @@ class App extends Component<Props> {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer
+            linking={linking}
             ref={(navigationRef) =>
               NavigationService.setTopLevelNavigator(navigationRef)
             }>
