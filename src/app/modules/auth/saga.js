@@ -13,6 +13,9 @@ import {
 
 import NavigationService from '../../../vendor/utils/navigation';
 
+
+import { mainStack } from '../../../config/navigator';
+
 /**
  * Do login success
  * @param token
@@ -24,9 +27,9 @@ function* doLoginSuccess(token, user = {}, method = 'email') {
         type: Actions.SIGN_IN_WITH_EMAIL_SUCCESS,
         payload: { token, user },
     });
-    yield call(NavigationService.navigate, "Account");
-    yield call(AsyncStorage.setItem, 'token', token);
-    yield call(AsyncStorage.setItem, 'method', method);
+    yield call(NavigationService.navigate, mainStack.account_screen);
+    // yield call(AsyncStorage.setItem, 'token', token);
+    // yield call(AsyncStorage.setItem, 'method', method);
 }
 
 /**

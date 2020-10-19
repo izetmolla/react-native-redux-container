@@ -18,6 +18,12 @@ export const homeTabs = {
 };
 
 export const mainStack = {
+    home_screen:"HomeScreen",
+    account_screen:"AccontScreen",
+
+
+
+
     home_tab: 'HomeTab',
 
     blogs: 'BlogsScreen',
