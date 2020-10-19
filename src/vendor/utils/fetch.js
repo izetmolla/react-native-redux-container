@@ -56,7 +56,6 @@ const get = (url, options = {}) => {
  * @returns {Promise<R>}
  */
 const post = (url, data, isAuth = false) => {
-    console.log("Heyyy")
     return new Promise((resolve, reject) => {
         // To JS Object
         if (isImmutable(data)) {
@@ -65,25 +64,22 @@ const post = (url, data, isAuth = false) => {
 
 
 
-        let baseURL = 'https://vines.fun/v1' + url;
+        let baseURL = 'https://android.vines.izetmolla.com/v1' + url;
 
         let headers = {
             Accept: 'application/json', 'Content-Type': 'application/json',
-            Authorization: isAuth && globalConfig.getToken() ? `Bearer ${globalConfig.getToken()}` : null,
+            Authorization: isAuth && globalConfig.getToken() ? `Bearer ${globalConfig.getToken()}` : null
         }
 
 
         fetch(baseURL, {
             method: "POST",
             headers,
-            body: isDigits
-                ? data
-                : typeof data === 'object'
-                    ? JSON.stringify(data)
-                    : null,
+            body: typeof data === 'object' ? JSON.stringify(data) : null,
         })
             .then((res) => res.json())
             .then((result) => {
+                console.log(result)
                 resolve(result);
             })
             .catch((error) => {

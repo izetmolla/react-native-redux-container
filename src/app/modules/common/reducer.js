@@ -88,35 +88,12 @@ function commonReducer(state = initState, action = {}) {
                 state.get('theme') === Actions.LIGHT ? Actions.DARK : Actions.LIGHT,
             );
         case Actions.FETCH_SETTING_SUCCESS:
-            const defaultCurrency = payload.settings.currency;
-            const defaultLanguage = payload.settings.language;
-
-            // Check currency in list currency
-            const isCurrencyValidate =
-                payload.settings.currencies &&
-                state.get('currency') &&
-                payload.settings.currencies[state.get('currency')];
-
             return state
                 .merge(fromJS(payload.settings))
                 .set('loading', false)
                 .set('siteConfig', fromJS(payload.settings))
-                .set('theme', state.get('theme'))
-                .set(
-                    'currency',
-                    isCurrencyValidate ? state.get('currency') : defaultCurrency,
-                )
-                .set('defaultCurrency', defaultCurrency)
-                .set('language', state.get('language') || defaultLanguage)
-                .set('defaultLanguage', defaultLanguage)
-                .set('templates', fromJS(payload.templates))
-                .set(
-                    'configs',
-                    fromJS({
-                        ...initConfigs,
-                        ...payload.configs,
-                    }),
-                );
+
+                
         case Actions.CHANGE_TEMPLATE:
             return state.set('templateActive', payload);
         case Actions.CHANGE_CURRENCY:

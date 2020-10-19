@@ -19,13 +19,11 @@ export function switchMode() {
  * @param configs
  * @returns {{type: string, payload: {settings: *, configSetting: *, configs: *}}}
  */
-export function fetchSettingSuccess({ settings, configs, templates }) {
+export function fetchSettingSuccess({ settings }) {
     return {
         type: Actions.FETCH_SETTING_SUCCESS,
         payload: {
-            settings,
-            configs,
-            templates,
+            settings
         },
     };
 }

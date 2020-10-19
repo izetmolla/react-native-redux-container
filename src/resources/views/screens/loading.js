@@ -1,24 +1,62 @@
-import React from "react"
+// @flow
 
-import { View, Text, Button } from "react-native"
-import { connect } from "react-redux";
-import { signInWithEmail } from "../../../../app/modules/auth/actions";
+import React from 'react';
 
-function LoadingScreen(props) {
-    console.log(props)
-    return (
-        <View>
-            <Text>Loading Screen</Text>
-            <Button title="Login" onPress={() => props.dispatch(signInWithEmail({ email: "izetmolla@gmail.com", password: "milani10" }))} />
-        </View>
-    )
+import { connect } from 'react-redux';
+import { isLogin } from '../../../app/modules/auth/actions';
+import { isLoginSelector } from '../../../app/modules/auth/selectors';
+import { fetchSettingSuccess } from '../../../app/modules/common/actions';
+import { fetchSetting } from '../../../app/modules/common/service';
+import SplashScreen from 'react-native-splash-screen'
+
+
+type Props = {
+    initSetting: Function,
+};
+
+class LoadingScreen extends React.Component<Props> {
+    componentDidMount() {
+        this.bootstrapAsync();
+    }
+
+    /**
+     * Init data
+     * @returns {Promise<void>}
+     */
+    bootstrapAsync = async () => {
+        try {
+            const { initSetting, isLoginBool, isLoginFc } = this.props;
+            let settings = await fetchSetting();
+
+            console.log(settings)
+            // Check user token
+            if (isLoginBool) {
+                isLoginFc();
+            }
+            initSetting({
+                settings: settings,
+            });
+
+            SplashScreen.hide();
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    render() {
+        return null;
+    }
 }
 
 const mapStateToProps = (state) => {
     return {
-        // config: dataConfigSelector(state),
-        // toggleSidebar: toggleSidebarSelector(state),
+        isLoginBool: isLoginSelector(state),
     };
 };
 
-export default connect(mapStateToProps)(LoadingScreen);
+const mapDispatchToProps = {
+    initSetting: fetchSettingSuccess,
+    isLoginFc: isLogin,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoadingScreen);
