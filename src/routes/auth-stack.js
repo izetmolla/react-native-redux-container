@@ -1,41 +1,19 @@
 import React from 'react';
 
-import { authStack } from 'src/config/navigator';
 
 import { createStackNavigator } from '@react-navigation/stack';
+import Home from '../resources/views/screens/Home';
+import { AccountScreen } from '../resources/views/screens/Account';
 
-import Login from 'src/screens/auth/login';
-import LoginMobile from 'src/screens/auth/login-mobile';
-import Register from 'src/screens/auth/register';
-import Forgot from 'src/screens/auth/forgot';
+
 
 const Stack = createStackNavigator();
 
 function AuthStack() {
     return (
-        <Stack.Navigator
-            initialRouteName={authStack.login}
-            screenOptions={{ gestureEnabled: false }}>
-            <Stack.Screen
-                options={{ headerShown: false }}
-                name={authStack.login}
-                component={Login}
-            />
-            <Stack.Screen
-                options={{ headerShown: false }}
-                name={authStack.login_mobile}
-                component={LoginMobile}
-            />
-            <Stack.Screen
-                options={{ headerShown: false }}
-                name={authStack.register}
-                component={Register}
-            />
-            <Stack.Screen
-                options={{ headerShown: false }}
-                name={authStack.forgot}
-                component={Forgot}
-            />
+        <Stack.Navigator initialRouteName={"HomeScreen"} screenOptions={{ gestureEnabled: false }}>
+            <Stack.Screen options={{ headerShown: false }} name={"HomeScreen"} component={Home} />
+            <Stack.Screen options={{ headerShown: false }} name={"AccountScreen"} component={AccountScreen} />
         </Stack.Navigator>
     );
 }

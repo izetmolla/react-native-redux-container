@@ -2,11 +2,12 @@ import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
-import HomeScreen from '../resources/views/screens/Home';
-import { AccountScreen } from '../resources/views/screens/Account';
+import LoadingScreen from '../resources/views/screens/loading';
 
 import { loadingSelector } from '../app/modules/common/selectors'
 import { isLoginSelector } from '../app/modules/auth/selectors';
+import MainStack from './main-stack';
+import AuthStack from './auth-stack';
 
 
 const Stack = createStackNavigator();
@@ -21,18 +22,22 @@ function RootStack({ loading, isLogin }) {
     // }
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name={"HomeScreen"} component={HomeScreen} />
-            <Stack.Screen name={"Account"} component={AccountScreen} />
+            {loading ? (
+                <Stack.Screen name={"LoadingScreen"} component={LoadingScreen} />
+            ) : isLogin ? (
+                <Stack.Screen name={rootSwitch.main} component={MainStack} options={{ animationEnabled: false, }} />
+            ) : (<>
+                <Stack.Screen name={rootSwitch.main} component={MainStack} options={{ animationEnabled: false, }} />
+                <Stack.Screen name={rootSwitch.auth} component={AuthStack} />
+            </>)}
         </Stack.Navigator>
     );
 }
 
 const mapStateToProps = (state) => {
     return {
-        // isGettingStart: isGettingStartSelector(state),
         isLogin: isLoginSelector(state),
         loading: loadingSelector(state),
-        // loginRequired: requiredLoginSelector(state),
     };
 };
 
